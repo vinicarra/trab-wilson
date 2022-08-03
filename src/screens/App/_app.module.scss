@@ -49,16 +49,50 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   column-gap: 0.5rem;
+
   button {
     font-size: 1rem;
     width: 100%;
+    background-color: white;
+    border: 1px solid gray;
+    border-radius: 0.15rem;
+
+    &:active {
+      background-color: papayawhip;
+    }
+  }
+
+  .btnPrimary {
+    background-color: mediumseagreen;
+    color: white;
+
+    &:active {
+      background-color: forestgreen;
+    }
   }
 }
 
 .bus {
+  position: relative;
   width: 15px;
   height: 15px;
   border: 3px solid blue;
   background-color: white;
   border-radius: 50%;
+}
+
+.busInfo {
+  position: absolute;
+  font-size: 0.7rem;
+  font-weight: bold;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -110%);
+
+  background-color: white;
+  border: 1px solid black;
+  padding: 0.5em;
+  border-radius: 0.25rem;
+  text-align: center;
+  user-select: none;
 }

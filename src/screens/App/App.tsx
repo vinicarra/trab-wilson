@@ -1,20 +1,17 @@
 import React, { useState, useRef, useMemo, useEffect } from "react";
-import ReactMapboxGl, {
-  Layer,
-  GeoJSONLayer,
-  Marker,
-  Cluster,
-} from "react-mapbox-gl";
+import ReactMapboxGl, { GeoJSONLayer, Marker } from "react-mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-
-import { busLine, busStops } from "./data";
-import { Bus, BusLine, BusStop } from "./app.types";
-
-import busStopImg from "./busStop.png";
-import * as styles from "./_app.module.scss";
 import { along, lineDistance, Position } from "@turf/turf";
 
-const STEPS = 30100 / 5;
+import { busLines, busStops } from "./data";
+import { Bus, BusLine, BusStop } from "./app.types";
+
+// @ts-ignore
+import busStopImg from "./busStop.png";
+// @ts-ignore
+import * as styles from "./_app.module.scss";
+
+const STEPS = 30100;
 const CENTER: [number, number] = [-49.04350020939314, -22.338231968616707];
 const ZOOM: [number] = [15];
 
@@ -53,7 +50,16 @@ export const App = () => {
   const line: BusLine | null = useMemo(() => {
     if (!search) return null;
 
-    return busLine;
+    const newLine = busLines.find((line) => {
+      return (
+        line.stops.find((stop) => stop.id === start?.id) &&
+        line.stops.find((stop) => stop.id === end?.id)
+      );
+    });
+
+    if (!newLine) alert("Nenhuma linha de ônibus encontrada!");
+
+    return newLine;
   }, [start, end, search]);
 
   const bus: Bus | null = useMemo(() => {
@@ -81,8 +87,6 @@ export const App = () => {
         const timeStep = Math.round(runtime) + startOffset;
 
         setBusLoc(arc[timeStep] || arc[arc.length - 1]);
-
-        console.log(arc[0]);
 
         if (timeStep <= STEPS) {
           frameId = window.requestAnimationFrame(animate);
@@ -130,7 +134,11 @@ export const App = () => {
           )}
           <div className={styles.actions}>
             <button onClick={clear}>Limpar</button>
-            <button onClick={() => setSearch(true)} disabled={!(start && end)}>
+            <button
+              className={styles.btnPrimary}
+              onClick={() => setSearch(true)}
+              disabled={!(start && end)}
+            >
               Procurar
             </button>
           </div>
@@ -172,12 +180,11 @@ export const App = () => {
                   width={40}
                   height={40}
                   style={{
-                    filter:
-                      stop.id === start?.id
-                        ? "invert(100%)"
-                        : stop.id === end?.id
-                        ? "invert(25%)"
-                        : "none",
+                    transition: "transform 500ms",
+                    transform:
+                      stop.id === start?.id || stop.id === end?.id
+                        ? "scale(1.4) translateY(-5px)"
+                        : "",
                   }}
                 />
               </Marker>
@@ -186,7 +193,9 @@ export const App = () => {
         </>
         {bus && busLoc && (
           <Marker coordinates={busLoc} anchor="center">
-            <div className={styles.bus} />
+            <div className={styles.bus}>
+              <div className={styles.busInfo}>{line.name}</div>
+            </div>
           </Marker>
         )}
       </Map>

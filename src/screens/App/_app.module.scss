@@ -1,0 +1,64 @@
+.container {
+  position: relative;
+  height: 100%;
+  background-color: lightpink;
+}
+
+.map {
+  height: 100%;
+  width: 100%;
+}
+
+.interactiveContainer {
+  position: absolute;
+  top: 1rem;
+  left: 0;
+  width: 100%;
+
+  display: grid;
+  place-items: center;
+
+  background-color: transparent;
+  z-index: 100;
+}
+
+.form {
+  display: grid;
+  align-items: center;
+  row-gap: 0.5rem;
+
+  input {
+    font-size: 1rem;
+    border-radius: 0.15em;
+    padding: 0.25em 0.7em;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.5);
+    border: 2px solid darkblue;
+
+    &:disabled {
+      background-color: white;
+      color: black;
+    }
+
+    &:focus {
+      border-color: darkorange;
+    }
+  }
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 0.5rem;
+  button {
+    font-size: 1rem;
+    width: 100%;
+  }
+}
+
+.bus {
+  width: 15px;
+  height: 15px;
+  border: 3px solid blue;
+  background-color: white;
+  border-radius: 50%;
+}

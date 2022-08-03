@@ -6,18 +6,17 @@
     "> 0.5%, last 2 versions, not dead"
   ],
   "devDependencies": {
-    "@parcel/transformer-sass": "2.6.2",
+    "@parcel/transformer-sass": "2.6.0",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
     "@types/react-map-gl": "^6.1.3",
-    "parcel": "^2.6.2",
+    "parcel": "2.6.0",
     "prettier": "^2.7.1",
     "process": "^0.11.10",
     "shx": "^0.3.4"
   },
   "scripts": {
     "start": "parcel",
-    "prebuild": "shx rm -rf dist/*",
     "build": "parcel build",
     "push-gh-pages": "push-dir --dir=dist --branch=gh-pages --cleanup --verbose"
   },
